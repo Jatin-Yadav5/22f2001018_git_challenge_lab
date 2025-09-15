@@ -1,0 +1,34 @@
+name: Environments
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  Dev:
+    runs-on: ubuntu-latest
+    environment: Dev
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Dev
+        run: echo "Deployed on Dev environment"
+
+  Stage:
+    runs-on: ubuntu-latest
+    needs: Dev
+    environment: Stage
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Stage
+        run: echo "Deployed on Staging environment"
+
+  Prod:
+    runs-on: ubuntu-latest
+    needs: Stage
+    environment: Prod
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Prod
+        run: echo "Deployed on Production environment"
